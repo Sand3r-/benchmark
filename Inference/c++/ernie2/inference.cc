@@ -34,6 +34,7 @@ DEFINE_string(model_dir, "", "model directory");
 DEFINE_string(data, "", "input data path");
 DEFINE_string(label,"", "label path" );
 DEFINE_int32(repeat, 1, "repeat");
+DEFINE_int32(iterations, 0, "iterations");
 DEFINE_bool(output_prediction, false,
             "Whether to output the prediction results.");
 DEFINE_bool(use_gpu, false, "Whether to use GPU for prediction.");
@@ -288,7 +289,7 @@ int main(int argc, char *argv[]) {
   }
 
   // config->pass_builder()->DeletePass("fc_fuse_pass");
-  config.SwitchIrOptim(true);
+  // config.SwitchIrOptim(true);
   if (FLAGS_debug)
     config.SwitchIrDebug(true);
 
@@ -327,11 +328,12 @@ int main(int argc, char *argv[]) {
   int num_samples{0};
   int count{0};
   int correct{0};
-  for (int i = 0; i < 100; i++) { // warm up
-    predictor->Run(inputs[0], &fetch);
-  }
+  // for (int i = 0; i < 100; i++) { // warm up
+  //   predictor->Run(inputs[0], &fetch);
+  // }
+  int iters = FLAGS_iterations ? std::min(inputs.size(), (size_t)FLAGS_iterations) : inputs.size();
   for (int i = 0; i < FLAGS_repeat; i++) {
-    for (int id = 0; id < inputs.size(); ++id) {
+    for (int id = 0; id < iters; ++id) {
       if (FLAGS_short && id == 2)
         break;
       fetch.clear();

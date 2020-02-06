@@ -20,9 +20,10 @@ else
   export CUDA_VISIBLE_DEVICES="${gpu_id}"
 fi
 
-MODEL_DIR=/data/mgallus/data/fp32_model/
-DATA_FILE=/data/mgallus/data/seq128_data/test_ds
-# DATA_FILE=/data/mgallus/data/100_ds
+MODEL_DIR=/home/mgallus/data/fp32_model
+# MODEL_DIR=/home/mgallus/src/Sander/Paddle/qat/transformed_qat_int8_model
+#DATA_FILE=/home/mgallus/data/ernie_model_data/100_ds
+DATA_FILE=/home/mgallus/data/ernie_model_data/one_ds
 REPEAT=1
 
 if [ $# -ge 3 ]; then
